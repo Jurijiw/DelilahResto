@@ -14,6 +14,7 @@ It is an API to manage manage users, orders, payment methods and products. This 
 Please
 
 ### First step
+***
 * Install Node in your OS. For more information check this: (https://nodejs.org/es/).
 * Create a new mongo database. For more information check this: (https://www.mongodb.com/atlas/database).
 * Install Redis in your OS. For more information check this: (https://redis.io/)
@@ -30,7 +31,7 @@ Steps for install dependencies and running API.
 $ npm install
 $ npm run start
 ```
-***Steps for unit testing
+Steps for unit testing
 ```
 $ npm run start
 ```
