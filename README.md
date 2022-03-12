@@ -9,24 +9,48 @@
 
 ### General Info
 ***
-This is the first Sprint Project of program 'Desarrollo Web Back End' on Acámica.
-It is an API to manage manage users, orders, payment methods and products.
+This is the second Sprint Project of program 'Desarrollo Web Back End' on Acámica.
+It is an API to manage manage users, orders, payment methods and products. This new version counts with data persistence.
+Please
+
+### First step
+* Install Node in your OS. For more information check this: (https://nodejs.org/es/).
+* Create a new mongo database. For more information check this: (https://www.mongodb.com/atlas/database).
+* Install Redis in your OS. For more information check this: (https://redis.io/)
+
+### Personalized settings
+***
+Create a new file .env in same directory as sample.env.
+Add the properties with your databese info, port and jwt password.
 
 ### Installation
 ***
-Steps for installation and running API.
+Steps for install dependencies and running API.
 ```
 $ npm install
 $ npm run start
 ```
-
+***Steps for unit testing
+```
+$ npm run start
+```
 ### Technologies
 ***
 A list of technologies used within the project:
-* [NodeJS](https://nodejs.org/en): Version 16.2.0
-* [Express](https://expressjs.com/es): Version 4.17.1
-* [Swagger-UI-express](https://www.npmjs.com/package/swagger-ui-express): Version 4.1.6
+* [NodeJS](https://nodejs.org/en)
+* [Express](https://expressjs.com/es)
+* [Mocha](https://mochajs.org/)
+* [JWT](https://jwt.io/)
+* [Swagger-UI-express](https://www.npmjs.com/package/swagger-ui-express)
 
+### Dependencies
+***
+A list of technologies used within the project:
+* [NodeJS](https://nodejs.org/en)
+* [Express](https://expressjs.com/es)
+* [Mocha](https://mochajs.org/)
+* [JWT](https://jwt.io/)
+* [Swagger-UI-express](https://www.npmjs.com/package/swagger-ui-express)
 ### Author
 ***
 Lia Jurijiw Aguero.

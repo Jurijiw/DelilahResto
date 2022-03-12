@@ -16,7 +16,6 @@ async function initDatabase() {
   const bd = process.env.DB_NAME;
 
   const url = `mongodb+srv://${user}:${pass}@clusterlia.trgzc.mongodb.net/${bd}?retryWrites=true&w=majority`;
-  //const url = `mongodb+srv://admin:DAtZVZ4QyiNZlwVa@clusterlia.trgzc.mongodb.net/Acamica?retryWrites=true&w=majority`;
 
   const initDB = new Promise((resolve, reject) => {
 
