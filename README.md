@@ -3,9 +3,11 @@
 ## Table of Contents
 ***
 1. [General Info](#general-info)
-2. [Installation](#installation)
-3. [Technologies](#technologies)
-4. [Author](#author)
+2. [First step](#first-step)
+3. [Personalized settings](#personalized-settings)
+4. [Installation](#installation)
+5. [Technologies](#technologies)
+6. [Author](#author)
 
 ### General Info
 ***
@@ -44,14 +46,6 @@ A list of technologies used within the project:
 * [JWT](https://jwt.io/)
 * [Swagger-UI-express](https://www.npmjs.com/package/swagger-ui-express)
 
-### Dependencies
-***
-A list of technologies used within the project:
-* [NodeJS](https://nodejs.org/en)
-* [Express](https://expressjs.com/es)
-* [Mocha](https://mochajs.org/)
-* [JWT](https://jwt.io/)
-* [Swagger-UI-express](https://www.npmjs.com/package/swagger-ui-express)
 ### Author
 ***
 Lia Jurijiw Aguero.
