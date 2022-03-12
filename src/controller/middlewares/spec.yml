@@ -1,0 +1,606 @@
+openapi: 3.0.0
+info:
+  title: Delilah Restaurant App
+  description: This is an API to manage and save users, orders, payment methods and products.
+  version: 0.1.9
+servers:
+  - url: http://localhost:9090/api/v2
+    description: Development server to try requests.
+paths:
+  /login:
+    post:
+      tags: 
+        - Log in
+      summary: Login for an user
+      description: Endpoint to send login information. You can log in using username or email and password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: admin
+                email:
+                  type: string
+                  format: email
+                  example: ljurijiw@gmail.com
+                password:
+                  type: string
+                  example: Mimamamemima123*
+      responses:
+        200:
+          description: Response returns an bearer authorization token.
+        400:
+          description: Failed to realize login.
+  /users:
+    post:
+      tags: 
+        - Users
+      summary: Create an user
+      description: Endpoint to create an user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: Response returns new user information with encrypted password.
+        404:
+          description: Failed to create a new user.
+    get:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Users
+      summary: Get all users. Only for admins.
+      description: Endpoint to get all registered users. It is visible to admin users only.
+      responses:
+        200:
+          description: Response returns all registered users.
+        404:
+          description: Failed to load all registered users.
+  /users/{id}:
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - Users
+      summary: Suspend user's account. Only for admins.
+      description: Endpoint to disable a user's account.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            example: 61c24c2b7442de128835c6db
+          required: true
+          description: ID of user to be able to suspend it.
+      responses:
+        200:
+          description: Response returns updated user with property 'active' = false.
+        404:
+          description: Failed to suspend account.
+  /users/test:
+    delete:
+      tags:
+        - Users
+      summary: Delete user test.
+      description: Endpoint to delete user created by unit testing.
+      responses:
+        200:
+          description: Response returns message 'Deleted user'.
+        404:
+          description: Failed to delete user test.
+  /paymentMethods:
+    get:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Payment Methods
+      summary: Get all existing payment method.
+      description: Endpoint to get all Payment Methods. It returns actives and inactives payment methods.
+      responses:
+        200:
+          description: Response returns all Payment Methods (actives and inactives).
+        404:
+          description: Failed to load all Payment Methods.
+    post:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Payment Methods
+      summary: Create a Payment Method. Only for admins.
+      description: Endpoint to create a Payment Method. It is just for admin user only.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentMethod'
+      responses:
+        200:
+          description: Response returns a Payment Methods object.
+        404:
+          description: Failed to load Payment Methods.
+  /paymentMethods/{id}:
+    put:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Payment Methods
+      summary: Update an existing Payment Method. Only for admin users.
+      description: Endpoint to update detail of an existing Payment Method or to disabled it. It is just for admin user only.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            example: 61548342b9708ea923a9654f
+          required: true
+          description: ID of the payment method.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                detail:
+                  type: string
+                  example: Tarjeta de credito
+                active:
+                  type: boolean
+                  example: false
+      responses:
+        200:
+          description: Response returns updated payment method.
+        404:
+          description: Failed to update payment method.
+    delete:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Payment Methods
+      summary: Delete an existing Payment Method. Only for admin users.
+      description: Endpoint to delete an existing Payment Method. It is just for admin user only.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            example: 62251f2aeac36dfa9244c09e
+          required: true
+          description: ID of the payment method.
+      responses:
+        200:
+          description: Response returns a confirmation message.
+        404:
+          description: Failed to delete payment method.
+  /users/products:
+    get:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Products
+      summary: Get all actives and fav products by user id.
+      description: Endpoint to get all actives Products and user's fav products. It is visible to user only.
+      responses:
+        200:
+          description: Response returns all active Products and user's fav products.
+        404:
+          description: Failed to load Products.
+
+
+
+
+
+  /products:
+    get:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Products
+      summary: Get all products including inactive products. Only for admin users.
+      description: Endpoint to get all Products. It is visible to admin user only.
+      responses:
+        200:
+          description: Response returns all Products.
+        404:
+          description: Failed to load Products.
+    post:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Products
+      summary: Create a new product. Only for admin users.
+      description: Endpoint to create a new product. It is just for admin user only.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        200:
+          description: Response returns new product.
+        404:
+          description: Failed to create product.
+  /products/{id}:
+    put:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Products
+      summary: Update an existing product. Only for admin users.
+      description: Endpoint to update an existing product. It is just for admin user only.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            example: 6178c53bf08185d3527b1997
+          required: true
+          description: ID of the product to be able to update it.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        200:
+          description: Response returns updated product.
+        404:
+          description: Failed to update product.
+    delete:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Products
+      summary: Delete an existing product. Only for admin users.
+      description: Endpoint to delete an existing product. It is just for admin user only.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            example: 62253bc51082fbc913cb717f
+          required: true
+          description: ID of the product to be able to delete it.
+      responses:
+        200:
+          description: Response returns a confirmation message.
+        404:
+          description: Failed to delete product.
+  /users/orders:
+    get:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Orders (users)
+      summary: Get orders history of one user.
+      description: Endpoint to get orders history with detailed products.
+      responses:
+        200:
+          description: Response returns an array with orders history.
+        404:
+          description: Failed to load orders history.
+    post:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Orders (users)
+      summary: Create a new order for one user.
+      description: Endpoint to create a new order for one user with no pending orders.
+      responses:
+        200:
+          description: Response returns a confirmation message with order ID and a confirmation message.
+        404:
+          description: Failed to create a new order and returns the id of pending order.  
+  /users/orders/{idOrder}:     
+    get:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Orders (users)
+      summary: Get one order identified by the provided ID.
+      description: Endpoint to get one order identified by the provided ID.
+      parameters:
+        - in: path
+          name: idOrder
+          schema:
+            type: string
+            example: 61c2d7cced399f0596aa1df0
+          required: true
+          description: ID of the order.
+      responses:
+        200:
+          description: Response returns order array with added products.
+        404:
+          description: Failed to load order data. It returns an error message.
+    put:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Orders (users)
+      summary: Add a product in detail array or confirm a pending order.
+      description: Sending product ID and amount this endpoint allows to add a new product to detail array. Sending status 2 confirm a pending order adding payment method and shipping address(position within users's addresses array).
+      parameters:
+        - in: header
+          name: idprod
+          schema:
+            type: string
+            example: 6178c53bf08185d3527b1997
+          description: ID of product.
+        - in: header
+          name: amount
+          schema:
+            type: number
+            example: 12
+          description: Amount of product.
+        - in: header
+          name: status
+          schema:
+            type: number
+            example: 2
+          description: Status 2 to confirm order.
+        - in: header
+          name: address
+          schema:
+            type: number
+            example: 0
+          description: Select address array's position.
+        - in: header
+          name: pm
+          schema:
+            type: string
+            example: 61548342b9708ea923a9654f
+          description: ID of payment method.
+        - in: path
+          name: idOrder
+          schema:
+            type: string
+            example: 61c2d7cced399f0596aa1df0
+          required: true
+          description: ID of the order.
+      responses:
+        200:
+          description: Response returns a confirmation message with detailed order.
+        404:
+          description: Failed to load add product. It returns an message.
+  /users/orders/{idOrder}/{idItem}:     
+    put:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Orders (users)
+      summary: Update amount of product in order's detail.
+      description: Endpoint to update amount of an item included in orders's detail.
+      parameters:
+        - in: header
+          name: amount
+          schema:
+            type: number
+            example: 8
+          required: true
+          description: Amount of product.
+        - in: path
+          name: idItem
+          schema:
+            type: string
+            example: 61c2d7cced399f0596aa1df0
+          required: true
+          description: ID of item in detail array.
+        - in: path
+          name: idOrder
+          schema:
+            type: string
+            example: 61c2d7cced399f0596aa1df0
+          required: true
+          description: ID of the order.
+      responses:
+        200:
+          description: Response returns a confirmation message with detailed order.
+        404:
+          description: Failed to update product. It returns a message.
+    delete:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Orders (users)
+      summary: Delete a product in detail array.
+      description: Endpoint to delete a product to detail array.
+      parameters:
+        - in: path
+          name: idItem
+          schema:
+            type: string
+            example: 61c2d7cced399f0596aa1df0
+          required: true
+          description: ID of item.
+        - in: path
+          name: idOrder
+          schema:
+            type: string
+            example: 61c2d7cced399f0596aa1df0
+          required: true
+          description: ID of the order.
+      responses:
+        200:
+          description: Response returns a confirm message.
+        404:
+          description: Failed to load order data. It returns an empty array.
+  /orders:
+    get:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Orders (admins)
+      summary: Get all orders.
+      description: Endpoint to get all orders including those that are still pending.
+      responses:
+        200:
+          description: Response returns all orders, order by status, date with detail.
+        404:
+          description: Failed to load orders.
+  /orders/{idOrder}:
+    get:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Orders (admins)
+      summary: Get one order.
+      description: Endpoint to get one selected order.
+      parameters:
+        - in: path
+          name: idOrder
+          schema:
+            type: string
+            example: 622d088c4f4b1ddd2edaa575
+          required: true
+          description: ID of the order.
+      responses:
+        200:
+          description: Response returns order information.
+        404:
+          description: Failed to load order.
+    put:
+      security:
+        - bearerAuth: []
+      tags: 
+        - Orders (admins)
+      summary: Update order status.
+      description: Endpoint to update the status of the selected confirmed order.
+      parameters:
+        - in: header
+          name: status
+          schema:
+            type: number
+            example: 3
+          required: true
+          minimum: 3
+          maximum: 5
+          description: Number status
+        - in: path
+          name: idOrder
+          schema:
+            type: string
+            example: 622d088c4f4b1ddd2edaa575
+          required: true
+          description: ID of the order.
+      responses:
+        200:
+          description: Response returns order information with new status.
+        404:
+          description: Failed to update order.
+components:
+  securitySchemes:  
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      required:
+        - username
+        - name
+        - email
+        - phoneNumber
+        - addresses
+        - password
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          example: adri123
+        name:
+          type: string
+          example: Adriana Lopez 
+        email:
+          type: string
+          format: email
+          example: alopez@mail.com
+        phoneNumber:
+          type: number
+          example: 2964635241
+        addresses:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Address'
+        password:
+          type: string
+          format: password
+          example: 12345678
+    Address:
+      type: object
+      required:
+        - street
+        - number
+        - city
+        - province
+      properties:
+        street:
+          type: string
+          example: Estrada
+        number:
+          type: number
+          example: 2020 
+        city:
+          type: string
+          example: Rio Grande
+        province:
+          type: string
+          example: TDF
+    Product:
+      required:
+        - detail
+        - price
+      properties:
+        detail:
+          type: string
+          example: Milanesa con pure
+        price:
+          type: number
+          example: 350.25
+        active:
+          type: boolean
+          example: false
+          default: true
+    PaymentMethod:
+      required:
+        - detail
+      properties:
+        detail:
+          type: string
+          example: Tarjeta de credito
+    Order:
+      required:
+        - paymentMethod
+        - detail
+      properties:
+        paymentMethod:
+          type: number
+          example: 1625082031025
+        address:
+          type: object
+          properties:
+            street:
+              type: string
+              example: Estrada
+            number:
+              type: number
+              example: 2020
+            city:
+              type: string
+              example: Rio Grande  
+            province:
+              type: string
+              example: TDF
