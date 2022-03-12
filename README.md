@@ -35,7 +35,7 @@ $ npm run start
 ```
 Steps for unit testing
 ```
-$ npm run start
+$ npm run test
 ```
 ### Technologies
 ***
